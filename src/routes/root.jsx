@@ -144,7 +144,7 @@ export default function Root() {
 
         .header {
           background-color: #8ec7b7;
-          height: 55px;
+          height: 67px;
         }
 
         .banner {

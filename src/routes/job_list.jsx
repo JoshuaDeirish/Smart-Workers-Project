@@ -2,7 +2,8 @@ import { useDatabase, useUser } from 'reactfire';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Card, Form } from 'react-bootstrap';
+import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
+import * as Icon from 'react-bootstrap-icons';
 
 export default function Job_List() {
   const database = useDatabase();
@@ -92,37 +93,93 @@ export default function Job_List() {
   };
 
   const truncateDescription = (description) => {
-    if (description.length > 500) {
-      return description.substring(0, 500) + '...';
+    if (description.length > 400) {
+      return description.substring(0, 400) + '...';
     }
     return description;
   };
 
   return (
-    <div>
-      <header>Job List</header>
-      {isEmployer && <Button variant="success" onClick={addButton}>Add Job</Button>}
-      <Form.Control placeholder="Search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-      <Button variant="success" onClick={handleSearch}>Search</Button>
-      {loading ? (
-        <span>Loading...</span>
-      ) : (
-        <>
-          {jobs.map((job) => (
-            <Card key={job.id} onClick={() => applyButton(job.id)} style={{ marginBottom:10, marginLeft:20, marginRight:800}}>
+    <div style={{ padding: "100px 20px 100px 20px", backgroundColor: "#F5F5F5" }}>
+      <Container>
+        <Card style={{ padding: "10px", marginBottom: "20px" }}>
+          <Form.Control
+            placeholder="Search - (Web Developer, Chef, HR Manager)"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={{ marginBottom: "10px" }}
+          />
+          <Button
+            style={{ backgroundColor: "#8ec7b7", borderColor: "#565656", width: "100%" }}
+            onClick={handleSearch}
+          >
+            Search
+          </Button>
+          {isEmployer && (
+            <Button
+              style={{ backgroundColor: "#8ec7b7", borderColor: "#565656", marginTop: "10px", width: "100%" }}
+              onClick={addButton}
+            >
+              Add Job
+            </Button>
+          )}
+        </Card>
+        <Row>
+          <Col md={6}>
+            <Card style={{ marginBottom: "10px" }}>
+              <Card.Img style={{ borderRadius: "5px" }} src={require("./assets/Imgs/KEC-how-we-do-business-1024x683.jpeg")} />
               <Card.Body>
-                <Card.Title>{job.positionTitle}</Card.Title>
-                <Card.Subtitle>
-                  {job.location}<br />
-                  ${job.salary}
-                  </Card.Subtitle><br />
-                <Card.Text><li>{truncateDescription(job.description)}</li></Card.Text>
-                <Button variant="success" onClick={() => applyButton(job.id)}>Apply</Button><br /><br />
+                <Card.Title>Prospective Employee Articles</Card.Title>
+                <Card.Text>
+                  Discover valuable tips and advice to boost your chances of landing your dream job.
+                </Card.Text>
+                <Button style={{ backgroundColor: "#8ec7b7", borderColor: "#565656" }} href="/">
+                  View
+                </Button>
               </Card.Body>
             </Card>
-          ))}
-        </>
-      )}
+          </Col>
+          <Col md={6}>
+            {loading ? (
+              <span>Loading...</span>
+            ) : jobs.length === 0 ? (
+              <span style={{ fontSize: "24px", textAlign: "center", marginTop: "20px" }}>
+                No results found.
+              </span>
+            ) : (
+              <>
+                {jobs.map((job) => (
+                  <Card
+                    key={job.id}
+                    onClick={() => applyButton(job.id)}
+                    style={{
+                      marginBottom: "10px",
+                      cursor: "pointer",
+                      transition: "background-color 0.3s",
+                    }}
+                    className="job-card"
+                  >
+                    <Card.Body>
+                      <Card.Title style={{ fontSize: "20px", fontWeight: "bold" }}>
+                        {job.positionTitle}
+                      </Card.Title>
+                      <Card.Subtitle style={{paddingBottom:9, }}><u>{job.location}</u></Card.Subtitle>
+                      <Card.Subtitle>${job.salary}</Card.Subtitle>
+                      <Card.Text>{truncateDescription(job.description)}</Card.Text>
+                      <Button
+                        style={{ backgroundColor: "#8ec7b7", borderColor: "#565656", width: "100%" }}
+                        onClick={() => applyButton(job.id)}
+                      >
+                        <Icon.ArrowRight /> View
+                      </Button>
+                    </Card.Body>
+                  </Card>
+                ))}
+              </>
+            )}
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 }

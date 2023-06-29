@@ -82,51 +82,65 @@ export default function Navigation() {
 
   return (
     <div>
-      
-     
-      <Navbar  style={{ backgroundColor:"#8ec7b7" }} expand="xxl">
+      <Navbar
+        fixed="top"
+        style={{
+          backgroundColor: "#8ec7b7",
+          boxShadow: "1px 2px 7px lightGray",
+          opacity: "90%",
+          paddingBottom: 10,
+        }}
+        expand="xxl"
+      >
         <Container fluid>
-          <Navbar.Brand href="/">Smart Workers</Navbar.Brand>
+          <Navbar.Brand href="/" style={{
+          color: "white", fontSize:27}}>SMART WORKERS</Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Offcanvas placement="end">
-          <Offcanvas.Header closeButton>
-                <Offcanvas.Title >
-                 Menu
-                </Offcanvas.Title>
-              </Offcanvas.Header>
-              <Offcanvas.Body>
-                <Nav >
-                  <Nav.Link href='/' >Home</Nav.Link>
-                  {!user && (
-                    <>
-                    <Nav.Link href="/register" >Register</Nav.Link>
-                    <Nav.Link href="/login" >Login</Nav.Link>
-                    </>
-                  )}
-                  {user && (
-                    <>
-                    <Nav.Link href="/" onClick={logout}>Logout</Nav.Link>
-                    </>
-                  )}
-                  <Nav.Link href="/job-list">Job List</Nav.Link>
-                  {isEmployer && (
-                    <>
-                    <Nav.Link href="/add-job">Add Job</Nav.Link>
-                    <Nav.Link href="/my-postings">My Postings</Nav.Link>
-                    </>
-                  )}
-                  {isJobSeeker && (
-                    <>
-                    <Nav.Link href="/my-applications">Applications</Nav.Link>
-                    </>
-                  )}
-                  
-                </Nav>
-              </Offcanvas.Body>
+            <Offcanvas.Header closeButton style={{ backgroundColor: "#8ec7b7" }}>
+              <Offcanvas.Title>
+                <b>Menu</b>
+              </Offcanvas.Title>
+            </Offcanvas.Header>
+            <Offcanvas.Body style={{ fontSize: 22 }}>
+              <Nav navbarScroll>
+                <Nav.Link href="/" className="nav-link">Home</Nav.Link>
+                {!user && (
+                  <>
+                    <Nav.Link href="/register" className="nav-link">Register</Nav.Link>
+                    <Nav.Link href="/login" className="nav-link">Login</Nav.Link>
+                  </>
+                )}
+                {user && (
+                  <>
+                    <Nav.Link href="/" onClick={logout} className="nav-link">Logout</Nav.Link>
+                  </>
+                )}
+                <Nav.Link href="/job-list" className="nav-link">Job List</Nav.Link>
+                {isEmployer && (
+                  <>
+                    <Nav.Link href="/add-job" className="nav-link">Add Job</Nav.Link>
+                    <Nav.Link href="/my-postings" className="nav-link">My Postings</Nav.Link>
+                  </>
+                )}
+                {isJobSeeker && (
+                  <>
+                    <Nav.Link href="/my-applications" className="nav-link">Applications</Nav.Link>
+                  </>
+                )}
+              </Nav>
+            </Offcanvas.Body>
           </Navbar.Offcanvas>
         </Container>
       </Navbar>
-    </div>
 
+      <style>
+        {`
+          .nav-link:hover {
+            color: #bde5ac !important;
+          }
+        `}
+      </style>
+    </div>
   );
 }

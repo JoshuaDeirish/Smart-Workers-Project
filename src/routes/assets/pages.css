@@ -1,3 +1,10 @@
 .cancelBtns {
       background-color: green;
 }
+.job-card:hover {
+      background-color: #bde5ac; /* Change the background color on hover */
+    }
+*{
+      font-family: sans-serif;
+}
+    

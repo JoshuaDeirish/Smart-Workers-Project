@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDatabase, useUser } from "reactfire";
 import { Link } from "react-router-dom";
 import { useAuthRedirect, useJobSeekerAuthRedirect } from "../components/page_protection_funcs";
-import {  Button, Modal } from "react-bootstrap";
+import { Button, Card, Col, Modal, Row } from "react-bootstrap";
 
 
 export default function Applications() {
@@ -47,7 +47,7 @@ export default function Applications() {
       });
       alert("Application has been withdrawn")
       // Fetch the updated applications after withdrawal
-      
+
     } catch (error) {
       console.error("Error withdrawing application:", error);
     }
@@ -55,50 +55,66 @@ export default function Applications() {
 
   if (!jobs || jobs.length === 0) {
     return (
-      <div>
+      <div style={{ padding: "20px", backgroundColor: "#F5F5F5" }}>
         <p>You have no applications.</p>
         <Link to="/job-list">View available jobs</Link>
       </div>
     );
   }
+
   const handleClose = () => {
     setShow(false);
     setSelectedJobId(null); // Clear the selected job ID when closing the modal
   };
 
   const handleShow = (jobId, jobName) => {
-      setSelectedJob(jobName);
+    setSelectedJob(jobName);
     setSelectedJobId(jobId); // Set the selected job ID when showing the modal
     setShow(true);
   };
 
   return (
-    <div>
+    <div style={{ padding: "100px 20px 100px 20px", backgroundColor: "#F5F5F5" }}>
+      <h1 style={{ color: "#005262", textAlign:"center" }}><b>My Applications</b></h1>
       {jobs.map((job) => (
-        <div key={job.id}>
-          <h1>{job.positionTitle}</h1>
+        <Card key={job.id} style={{ marginBottom: "20px", padding: "20px" }}>
+          <h4 style={{ fontSize:30, fontWeight: "bold" }}>{job.positionTitle}</h4>
           <p>{job.description}</p>
           <p>Company: {job.company}</p>
           <p>Location: {job.location}</p>
-          <p>Salary: {job.salary}</p>
-          <Button onClick={() => handleShow(job.id, job.positionTitle)}>Withdraw Application</Button>
-        </div>
+          <p>Salary: ${job.salary}</p>
+          <Button
+            style={{ backgroundColor: "#8ec7b7", borderColor: "#565656", marginBottom: "10px" }}
+            onClick={() => handleShow(job.id, job.positionTitle)}
+          >
+            Withdraw Application
+          </Button>
+        </Card>
       ))}
+
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Confirm Application Withdrawal </Modal.Title>
+          <Modal.Title>Confirm Application Withdrawal</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Are you sure you would like to withdraw this application?<br />
-            <h2>Title: {selectedJob}</h2>
-          
+          Are you sure you would like to withdraw this application?
+          <br />
+          <h4>Title: {selectedJob}</h4>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button
+            style={{ backgroundColor: "#565656", borderColor: "#8ec7b7" }}
+            onClick={handleClose}
+          >
             Cancel
           </Button>
-          <Button variant="primary" onClick={()=>{handleWithdraw(selectedJobId)}}>
-            Confirm Withdrawal 
+          <Button
+            style={{ backgroundColor: "#8ec7b7", borderColor: "#565656" }}
+            onClick={() => {
+              handleWithdraw(selectedJobId);
+            }}
+          >
+            Confirm Withdrawal
           </Button>
         </Modal.Footer>
       </Modal>

@@ -5,6 +5,7 @@ import { router } from './routes/router';
 import { AuthProvider, DatabaseProvider } from 'reactfire';
 import Navigation from './components/nav';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import FooterPart from './components/footer';
 
 
 function App({ firestoreInstance, auth }) {
@@ -15,6 +16,7 @@ function App({ firestoreInstance, auth }) {
         <FirestoreProvider sdk={firestoreInstance}>
           <Navigation/>
           <RouterProvider router={router} />
+          <FooterPart/>
         </FirestoreProvider>
       </DatabaseProvider>
     </AuthProvider>

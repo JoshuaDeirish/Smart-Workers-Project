@@ -76,8 +76,9 @@ function Job() {
     } catch (error) {
       console.error('Error applying for the job:', error);
     }
-  };
+  };  
 
+  
   return (
     <div style={{ padding: "100px 60px 100px 60px", backgroundColor: "#F5F5F5" }}>
       <Card>
